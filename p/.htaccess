@@ -1,0 +1,2 @@
+RewriteEngine on
+RewriteRule ^/p/(.*)$ /p/redirect.php?code=$1 [L]
