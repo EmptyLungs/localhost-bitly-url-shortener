@@ -39,6 +39,10 @@
 <div id="wrapper">
     <div id="container">
         <form method="post">
+            <select name = 'action' required>
+                <option value = "localhost">localhost</option>
+                <option value = "bit">bit.ly</option>
+            </select>
             <div class="form-group has-success" >
                 <label>Enter your URL</label>
                 <input name="longurl">

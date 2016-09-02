@@ -6,16 +6,44 @@
  * Time: 22:53
  */
 require 'bd_conn.php';
-function generateRandomString($length = 10) {
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $charactersLength = strlen($characters);
-    $randomString = '';
-    for ($i = 0; $i < $length; $i++) {
-        $randomString .= $characters[rand(0, $charactersLength - 1)];
-    }
-    return $randomString;
+include 'curl.php';
+include 'func.php';
+
+
+$action = $_POST['action'];
+switch($action){
+    case 'localhost':
+        $longurl = $_POST['longurl'];
+        $code = generateRandomString();
+
+        $statement = $bd->prepare("INSERT INTO urls(url, code) VALUES(:url,:code)");
+        $statement->execute(array(
+            "url" => $longurl,
+            "code" => $code
+        ));
+
+        echo '<a href="redirect.php?code='.$code.'">localhost/shorty/p/redirect.php?code='.$code.'</a>';
+        break;
+    case 'bit':
+        $longurl = $_POST['longurl'];
+        $short = get_bitly_short_url($longurl);
+
+        $statement = $bd->prepare("INSERT INTO urls(url, code) VALUES(:url,:code)");
+        $statement->execute(array(
+            "url" => $longurl,
+            "code" => $short
+        ));
+
+
+
+        echo $short;
+        break;
+
+
 }
-if(isset ($_POST['longurl'])) {
+
+
+/**if(isset ($_POST['longurl'])) {
     $longurl = $_POST['longurl'];
     $code = generateRandomString();
 
@@ -28,4 +56,4 @@ if(isset ($_POST['longurl'])) {
     echo '<a href="redirect.php?code='.$code.'">localhost/shorty/p/redirect.php?code='.$code.'</a>';
 
 
-}
+} */
