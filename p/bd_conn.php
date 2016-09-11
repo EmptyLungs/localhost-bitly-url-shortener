@@ -5,10 +5,16 @@
  * Date: 14.08.2016
  * Time: 23:09
  */
-
-
-$server_name = "localhost";
+$dsn = "'mysql:host=localhost;dbname=urls'";
 $username = "root";
 $password = "";
 
-$bd = new PDO('mysql:host=localhost;dbname=urls', $username, $password);
+try {
+    $dbh = new PDO($dsn, $user, $password);
+} catch (PDOException $e) {
+    echo 'Подключение не удалось: ' . $e->getMessage();
+}
+
+
+
+$bd = new PDO($dsn, $username, $password);
